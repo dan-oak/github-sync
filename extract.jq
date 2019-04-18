@@ -1,8 +1,10 @@
 .[] | select(
-  .archived? == false
+  .archived == false
     and
-  .disabled? == false
+  .disabled == false
     and
   .size > 0
+    and
+  .fork == false
 ) |
   .name
