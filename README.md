@@ -4,7 +4,7 @@ How to work locally in your repositories as usual but get all other ones from
 your org without cloning the whole git history?
 
 ```zsh
-./github-sync.zsh
+zsh github-sync.zsh
 ```
 
 The same command to update all master branches, remove deleted and archived
