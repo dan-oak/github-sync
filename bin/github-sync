@@ -3,8 +3,14 @@
 set -e
 
 pushd $(dirname $(greadlink -f $0))
-. ./env.zsh
-. ./assert-env.zsh
+
+fpath=(.)
+autoload env assert-env github-list-repos extract instruct execute log
+
+source `which env_parallel.zsh`
+
+env
+assert-env
 
 mkdir -p $GITHUB_SYNC_DIR
 
@@ -18,10 +24,10 @@ instructions_f=$data_d/instructions.txt
 # --------------------------------------------------------------------------- #
 
 # List GitHub repos
-./github-list-repos.zsh $github_repos_response_d
+github-list-repos $github_repos_response_d
 
 # Extract names of active repos
-./extract.zsh $github_repos_response_d/* >$github_repos_name_f
+extract $github_repos_response_d/* >$github_repos_name_f
 
 # List local repos
 ls $GITHUB_SYNC_DIR >$local_repos_name_f
@@ -30,9 +36,13 @@ ls $GITHUB_SYNC_DIR >$local_repos_name_f
 gcomm $github_repos_name_f $local_repos_name_f >$comm_f
 
 # Prepare fetch/clone/remove instructions
-./instruct.zsh <$comm_f >$instructions_f
+instruct <$comm_f >$instructions_f
 
-# Execute instructions in parallel
-parallel -a $instructions_f --colsep ' ' ./execute.zsh
+if ((GITHUB_SYNC_DEBUG)) {
+  while read instruction; do execute ${=instruction}; done < $instructions_f
+} else {
+  # Execute instructions in parallel
+  env_parallel -a $instructions_f --colsep ' ' execute
+}
 
 popd

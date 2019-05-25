@@ -1,4 +1,2 @@
-env.zsh
-*.txt
-*.json
-*.csv
+env
+data/

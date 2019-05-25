@@ -1,10 +1,11 @@
 # GitHub Sync
 
-How to work locally in your repositories as usual but get all other ones from
-your org without cloning the whole git history?
+GitHub Sync clones and updates all repositories from an organization in shallow mode, which significantly reduces downloaded size, in the same time keeping active repositories on which you are working on with full history and always latest master branches.
+
+Setup guide included on the first run:
 
 ```zsh
-zsh bin/github-sync.zsh
+./github-sync
 ```
 
 The same command to update all master branches, remove deleted and archived

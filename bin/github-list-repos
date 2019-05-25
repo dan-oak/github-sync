@@ -5,7 +5,11 @@
 # Sorting is by last updated time
 
 dir=$1
-./rmkdir.zsh $dir
+
+fpath=(.)
+autoload rmkdir
+
+rmkdir $dir
 
 per_page_default=200
 

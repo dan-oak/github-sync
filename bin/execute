@@ -1,0 +1,52 @@
+#!/usr/bin/env zsh
+
+instruction=$1
+repo=$2
+
+depth=3
+
+fpath=($(dirname $(greadlink -f $0)))
+autoload log
+
+log $(tput bold)"$instruction $(tput setaf 2)$repo"$(tput sgr0)
+repo_dir="$GITHUB_SYNC_DIR/$repo"
+
+case "$instruction" in
+  "clone"  )
+    ssh_url="git@github.com:$GITHUB_SYNC_ORG/$repo.git"
+    git clone "$ssh_url" "$repo_dir" --depth $depth |& log
+    git -C "$repo_dir" status |& log
+    ;;
+  "remove" )
+    rm -rf "$repo_dir"
+    log "Removed '$repo_dir'"
+    ;;
+  "fetch"  )
+    pushd "$repo_dir"
+      is_shallow="$(git rev-parse --is-shallow-repository)"
+      log "$repo is shallow: $is_shallow"
+      case "$is_shallow" in
+        "true" )
+          git stash |& log
+          git fetch origin master:master \
+            --depth $depth \
+            --update-head-ok \
+            --force \
+            |& log
+          git checkout master |& log
+          git reset --hard origin/master |& log
+          ;;
+        "false" )
+          git stash |& log
+          git fetch origin master:master \
+            --update-head-ok \
+            --force \
+            |& log
+          git checkout master |& log
+          git reset --hard origin/master |& log
+          ;;
+      esac
+      git status |& log
+    popd
+    ;;
+esac
