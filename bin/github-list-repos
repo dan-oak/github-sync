@@ -7,7 +7,7 @@
 dir=$1
 
 fpath=(.)
-autoload rmkdir
+autoload rmkdir log
 
 rmkdir $dir
 
@@ -20,6 +20,7 @@ response_headers_f=$(mktemp)
 trap "rm -f $response_headers_f" 0 2 3 15
 
 while [[ -n $url ]] {
+  log "Getting page $page"
   out_f=$dir/page-$page.json
   curl $url \
     -H "Authorization: token $GITHUB_SYNC_TOKEN" \
