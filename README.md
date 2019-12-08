@@ -21,6 +21,9 @@ Unix, ZSH, Git, GNU coreutils, GNU parallel
 set. Alternatively `cp bin/env.template.zsh bin/env.zsh`, edit it and
 `source bin/env.zsh`.
 
+To create a scheduled task on MacOS modify and use `bin/generate-launchd-plist.zsh` and
+run `launchctl load ~/Library/LaunchAgents/dev.danoak.github-sync.plist`.
+
 ## See also
 
 - <https://github.com/whiteinge/ok.sh> - A GitHub API client library written
