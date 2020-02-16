@@ -1,3 +1,4 @@
-env
-data/
-github-sync.log
+/src/config.*.zsh
+!/src/config.template.zsh
+/data/
+*.log

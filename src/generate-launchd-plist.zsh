@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-wd=
+wd=$(realpath ${0:a:h}/..)
 
 label=dev.danoak.github-sync.plist
 plist_f=~/Library/LaunchAgents/$label
