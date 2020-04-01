@@ -1,37 +1,24 @@
-# GitHub Sync
+# GitHub Sync – `git clone` for a GitHub Organization
 
-GitHub Sync clones and updates all repositories from an organization in shallow mode, which significantly reduces
-downloaded size, in the same time keeping active repositories on which you are working on with full history and always
-latest master branches.
+GitHub Sync is a ZSH script to clone or pull all GitHub repositories from any organization.
 
-```zsh
-./github-sync
-```
+It was written because I had to use simple Unix tools like `grep` on most of the repositories in a company I worked, which was more than 1K and some of them weighted gigabytes.
 
-The same command to update all master branches, remove deleted and archived
-repositories.
+There are a bunch of examples out there about how to do just `git clone` in an one-liner, but they all work for small organizations only. See for example: [Stack Overflow](https://stackoverflow.com/questions/19576742/how-to-clone-all-repos-at-once-from-github).
 
-## Requirements
+This repo contains an advanced version of those one-liners:
+- ✅ **Clone all organization repositories even if your organization has 1K+ of them. As fast as possible, in parralel.**
+- ✅ **Clone and pull in [Shallow mode](https://git-scm.com/docs/shallow) if the size of all your repositories is too big.**
+- ✅ **Both of the above functionalities are executed with one command which decides which repos to clone, which to pull and which to delete if they no longer exist.**
+- ✅ **Configure a repository name patterns to filter.**
+- 🤷‍♂️ And if that's not enough, then as a bonus you have **an example of macOS LaunchAgent to execute the cloning and pulling regularly.**
 
-- Git
-- ZSH
-- GNU coreutils
-  - `date`
-  - `cp`
-- GNU parallel
+## Install and Use
 
-See also:
-- [How to replace Mac OS X utilities with GNU core utilities?]
+You need GNU `coreutils` (works with version 8) installed with prefix "g" and GNU `parralel` (works with version 20191122). E.g. on macOS: `brew install coreutils parralel`.
 
-## Setup
+Copy `src/config.template.zsh` to `src/config.zsh` and fill in the variables, your GitHub API token to use for the script, and filters if any needed.
 
-Copy `src/config.template.zsh` to `src/config.zsh` and fill in the variables.
+To create a scheduled task on MacOS modify and use `bin/generate-launchd-plist.zsh` and run it, e.g. `launchctl load ~/Library/LaunchAgents/dev.danoak.github-sync.plist`.
 
-To create a scheduled task on MacOS modify and use `bin/generate-launchd-plist.zsh` and run
-`launchctl load ~/Library/LaunchAgents/dev.danoak.github-sync.plist`.
-
-## See also
-
-- <https://github.com/whiteinge/ok.sh> - A GitHub API client library written in POSIX sh
-
-[How to replace Mac OS X utilities with GNU core utilities?]: https://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities
+Any form of constructive feedback or suggestions are welcomed in [Issues](https://github.com/danylo-dubinin/github-sync/issues).
