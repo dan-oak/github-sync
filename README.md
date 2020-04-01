@@ -15,7 +15,7 @@ This repo contains an advanced version of those one-liners:
 
 ## Install and Use
 
-You need GNU `coreutils` (works with version 8) installed with prefix "g" and GNU `parralel` (works with version 20191122). E.g. on macOS: `brew install coreutils parralel`.
+You need GNU `coreutils` (works with version 8) and GNU `parralel` (works with version 20191122). E.g. on macOS: `brew install coreutils parralel`, make sure the `coreutils` are available with the usual names without "g" prefix.
 
 Copy `src/config.template.zsh` to `src/config.zsh` and fill in the variables, your GitHub API token to use for the script, and filters if any needed.
 
